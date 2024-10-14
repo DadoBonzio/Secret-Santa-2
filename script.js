@@ -10,11 +10,7 @@ const app = Vue.createApp({
     methods: {
 
         addPerson() {
-<<<<<<< HEAD
-            if(this.name == "" || this.email == "") {
-=======
             if (this.name == "" || this.email == "") {
->>>>>>> 7a86233 (My Commit)
                 alert("Please enter name and email");
                 return;
             }
@@ -25,14 +21,9 @@ const app = Vue.createApp({
         removePerson(i) {
             this.names.splice(i, 1);
         },
-<<<<<<< HEAD
-                
-        sendEmails() {
-=======
 
         sendEmails() {
             this.validateMails();
->>>>>>> 7a86233 (My Commit)
             let arr = JSON.parse(JSON.stringify(this.names));
             for (let t = 0; t < new Date().getMilliseconds() % 5; t++) {
                 for (let i = arr.length - 1; i > 0; i--) {
@@ -56,8 +47,6 @@ const app = Vue.createApp({
                 emailjs.send("service_n05ddqf", "template_e33dzag", params);
             })
             window.alert("Emails sent, merry Christmas!")
-<<<<<<< HEAD
-=======
         },
         validateMails() {
             let arr = JSON.parse(JSON.stringify(this.names));
@@ -67,7 +56,6 @@ const app = Vue.createApp({
                 }
             }
             this.names = arr
->>>>>>> 7a86233 (My Commit)
         }
     }
 })
