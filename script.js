@@ -15,11 +15,30 @@ const app = Vue.createApp({
                 return;
             }
             this.names.push({ name: this.name, email: this.email });
+            this.validateMails();
             this.name = "";
             this.email = "";
+            this.saveList();
         },
+        clearList(){
+            this.names = [];
+            this.saveList();
+        },
+        saveList() {
+            localStorage.setItem("names", JSON.stringify(this.names));
+            console.log(this.names);
+        },
+
+        loadList() {
+            this.names = JSON.parse(localStorage.getItem("names"));
+            if (this.names === null || this.names === undefined || Array.isArray(this.names) === false || this.names.length === 0) {
+                this.names = [];
+            }
+        },
+
         removePerson(i) {
             this.names.splice(i, 1);
+            this.saveList();
         },
 
         sendEmails() {
@@ -51,12 +70,16 @@ const app = Vue.createApp({
         validateMails() {
             let arr = JSON.parse(JSON.stringify(this.names));
             for (let i = 0; i < arr.length; i++) {
+                arr[i].email = arr[i].email.toLowerCase();
                 if (!arr[i].email.includes("@")) {
                     arr[i].email = arr[i].email + "@gmail.com"
                 }
             }
             this.names = arr
         }
+    },
+    beforeMount() {
+        this.loadList();
     }
 })
 app.mount("#app")
