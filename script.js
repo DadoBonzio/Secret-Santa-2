@@ -8,7 +8,12 @@ const app = Vue.createApp({
         }
     },
     methods: {
-
+        async wait(ms) {
+            ms = ms || 300;
+            return new Promise(resolve => {
+                setTimeout(resolve, ms);
+            });
+        },
         addPerson() {
             if (this.name == "" || this.email == "") {
                 alert("Please enter name and email");
@@ -20,7 +25,7 @@ const app = Vue.createApp({
             this.email = "";
             this.saveList();
         },
-        clearList(){
+        clearList() {
             this.names = [];
             this.saveList();
         },
@@ -41,7 +46,7 @@ const app = Vue.createApp({
             this.saveList();
         },
 
-        sendEmails() {
+        async sendEmails() {
             this.validateMails();
             let arr = JSON.parse(JSON.stringify(this.names));
             for (let t = 0; t < new Date().getMilliseconds() % 5; t++) {
@@ -58,13 +63,14 @@ const app = Vue.createApp({
             }
             arr[arr.length - 1].name = firstNick;
             console.log(JSON.stringify(arr));
-            arr.forEach((person) => {
+            for (const person of arr) {
                 let params = {
                     name: person.name,
                     email: person.email
                 }
                 emailjs.send("service_n05ddqf", "template_e33dzag", params);
-            })
+                await this.wait(300);
+            }
             window.alert("Emails sent, merry Christmas!")
         },
         validateMails() {
